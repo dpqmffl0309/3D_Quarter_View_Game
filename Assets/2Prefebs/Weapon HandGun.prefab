@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Item
   type: 4
-  value: 0
+  value: 1
 --- !u!54 &3657398986401408507
 Rigidbody:
   m_ObjectHideFlags: 0

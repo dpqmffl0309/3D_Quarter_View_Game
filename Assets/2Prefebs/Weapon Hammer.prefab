@@ -226,10 +226,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7019987918826426720}
+  - component: {fileID: 3582649161199639953}
   - component: {fileID: 3172579617375687400}
   - component: {fileID: 6535130815892233533}
   - component: {fileID: 3442064915946191119}
-  - component: {fileID: 3582649161199639953}
   m_Layer: 0
   m_Name: Weapon Hammer
   m_TagString: Weapon
@@ -255,6 +255,20 @@ Transform:
   - {fileID: 9109960594546050284}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3582649161199639953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569722198329452995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75f5ce4616d52c14f8a82b6d5c175211, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Item
+  type: 4
+  value: 0
 --- !u!54 &3172579617375687400
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -324,20 +338,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3582649161199639953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6569722198329452995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75f5ce4616d52c14f8a82b6d5c175211, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Item
-  type: 4
-  value: 0
 --- !u!1 &7284970431899061931
 GameObject:
   m_ObjectHideFlags: 0
