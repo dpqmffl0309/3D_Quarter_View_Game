@@ -16481,6 +16481,10 @@ PrefabInstance:
       value: 2.8069792
       objectReference: {fileID: 0}
     - target: {fileID: 3386786046781390206, guid: f0e313b71f349af47973e1e61c90477e, type: 3}
+      propertyPath: hasGranades
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386786046781390206, guid: f0e313b71f349af47973e1e61c90477e, type: 3}
       propertyPath: 'granades.Array.data[0]'
       value: 
       objectReference: {fileID: 422466679}
