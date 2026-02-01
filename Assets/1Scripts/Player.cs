@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public bool[] hasWeapons;
     public GameObject[] granades;
     public int hasGranades;
+    public GameObject GranadeObj;
     public Camera followCamera;
 
     public int ammo;
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour
     bool dDown;
     bool iDown;
     bool fDown;
+    bool gDown;
     bool rDown;
 
     bool sDown1;
@@ -64,6 +66,7 @@ public class Player : MonoBehaviour
         Move();
         Turn();
         Jump();
+        Granade();
         Attack();
         Reload();
         Dodge();
@@ -77,6 +80,7 @@ public class Player : MonoBehaviour
         wDown = Input.GetButton("Walk");
         jDown = Input.GetButtonDown("Jump");
         fDown = Input.GetButton("Fire1");
+        gDown = Input.GetButtonDown("Fire2");
         rDown = Input.GetButtonDown("Reload");
         dDown = Input.GetButtonDown("Dodge");
         iDown = Input.GetButtonDown("Interaction");
@@ -143,6 +147,32 @@ public class Player : MonoBehaviour
             anim.SetBool("isJump", true);
             anim.SetTrigger("doJump");
             isJump = true;
+        }
+    }
+    void Granade()
+    {
+        if (hasGranades == 0)
+            return;
+        if (gDown && !isReload && !isSwap) 
+        {
+            Ray ray = followCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit rayHit;
+            if (Physics.Raycast(ray, out rayHit, 100))
+            {
+                Vector3 nextVec = rayHit.point - transform.position;
+                nextVec.y = 10;
+
+                GameObject instantGranade = Instantiate(GranadeObj,
+                                                    transform.position,
+                                                    transform.rotation);
+                Rigidbody rigidGranade = instantGranade.GetComponent<Rigidbody>();
+                rigidGranade.AddForce(nextVec, ForceMode.Impulse);
+                //rigidGranade.AddTorque(Vector3.back * 3, ForceMode.Impulse);
+
+                hasGranades--;
+                granades[hasGranades].SetActive(false);
+
+            }
         }
     }
     void Attack()
