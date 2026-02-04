@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public int ammo;
     public int coin;
     public int health;
+    public int score;
 
     public int maxAmmo;
     public int maxCoin;
@@ -43,6 +44,7 @@ public class Player : MonoBehaviour
     bool isReload;
     bool isBorder;
     bool isDamage;
+    bool isShop;
     bool isFireReady = true;
 
 
@@ -53,16 +55,19 @@ public class Player : MonoBehaviour
     Animator anim;
     MeshRenderer[] meshs;
     GameObject nearObject;
-    Weapon equipWeapon;
+    public Weapon equipWeapon;
 
     int equipWeaponIndex = -1;
     float fireDelay;
 
-    void Start()
+    void Awake()
     {
         rigid = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         meshs= GetComponentsInChildren<MeshRenderer>();
+
+        //Debug.Log(PlayerPrefs.GetInt("MaxScore"));
+        PlayerPrefs.SetInt("MaxScore", 125000);
     }
     void Update()
     {
@@ -187,7 +192,7 @@ public class Player : MonoBehaviour
         fireDelay += Time.deltaTime;
         isFireReady = equipWeapon.rate < fireDelay;
 
-        if (fDown && isFireReady && !isDodge && !isSwap) 
+        if (fDown && isFireReady && !isDodge && !isSwap && !isShop) 
         {
             equipWeapon.Use();
             anim.SetTrigger(equipWeapon.type == Weapon.Type.Melee ? "doSwing" : "doShot");
@@ -202,7 +207,7 @@ public class Player : MonoBehaviour
         if (equipWeapon.curAmmo == equipWeapon.maxAmmo) return;
         if (ammo == 0) return;
 
-        if (rDown && !isJump && !isDodge && !isSwap)
+        if (rDown && !isJump && !isDodge && !isSwap && !isShop)
         {
             anim.SetTrigger("doReload");
             isReload = true;
@@ -222,7 +227,7 @@ public class Player : MonoBehaviour
     }
     void Dodge()
     {
-        if (dDown && !isJump && !isDodge&&!isSwap) 
+        if (dDown && !isJump && !isDodge && !isSwap && !isShop) 
         {
             
             dodgeVec = moveVec;
@@ -252,7 +257,7 @@ public class Player : MonoBehaviour
         if (sDown2) weaponIndex = 1;
         if (sDown3) weaponIndex = 2;
 
-        if ((sDown1 || sDown2 || sDown3) && !isDodge && !isJump)
+        if ((sDown1 || sDown2 || sDown3) && !isDodge && !isJump && !isShop)
         {
             if(equipWeapon!=null)
                 equipWeapon.gameObject.SetActive(false);
@@ -273,7 +278,7 @@ public class Player : MonoBehaviour
     }
     void Interaction()
     {
-        if (iDown && nearObject != null && !isDodge && !isJump)
+        if (iDown && nearObject != null && !isDodge && !isJump && !isShop)
         {
             if (nearObject.tag == "Weapon")
             {
@@ -283,7 +288,14 @@ public class Player : MonoBehaviour
 
                 Destroy(nearObject);
             }
+            else if (nearObject.tag == "Shop")
+            {
+                Shop shop = nearObject.GetComponent<Shop>();
+                shop.Enter(this);
+                isShop = true;
+            }
         }
+       
     }
     void FreezeRotation()
     {
@@ -374,7 +386,7 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Weapon") 
+        if (other.tag == "Weapon" || other.tag == "Shop")  
         {
             nearObject = other.gameObject;
         } 
@@ -383,6 +395,13 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "Weapon")
         {
+            nearObject = null;
+        }
+        else if(other.tag == "Shop")
+        {
+            Shop shop = nearObject.GetComponent<Shop>();
+            shop.Exit();
+            isShop = false;
             nearObject = null;
         }
     }
